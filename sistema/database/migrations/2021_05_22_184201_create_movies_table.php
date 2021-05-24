@@ -20,6 +20,7 @@ class CreateMoviesTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')
             ->onDelete('cascade');
             $table->string('year');
+            $table->longText('image');
             $table->integer('number_copies');
             $table->text('description');
             $table->timestamps();
