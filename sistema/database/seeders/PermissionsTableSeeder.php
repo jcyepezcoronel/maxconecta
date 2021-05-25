@@ -22,13 +22,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['title' => 'Editar Usuarios', 'name' => 'users.update']);
         Permission::create(['title' => 'Borrar Usuarios', 'name' => 'users.destroy']);
 
-        // Create Permission Roles
-        Permission::create(['title' => 'Ver Roles', 'name' => 'roles.index']);
-        Permission::create(['title' => 'Editar Roles', 'name' => 'roles.update']);
-        Permission::create(['title' => 'Crear Roles', 'name' => 'roles.create']);
-        Permission::create(['title' => 'Borrar Roles', 'name' => 'roles.destroy']);
-
-         // Create Permission Client
+        // Create Permission Client
          Permission::create(['title' => 'Ver Clients', 'name' => 'client.index']);
          Permission::create(['title' => 'Editar Clients', 'name' => 'client.update']);
          Permission::create(['title' => 'Crear Clients', 'name' => 'client.create']);
@@ -54,20 +48,14 @@ class PermissionsTableSeeder extends Seeder
         $userAdmin = User::find(1);
         $userAdmin->assignRole('admin');
 
-        //User Dealership
-        $userDealership = User::create([
+        //User Charge
+        $userCharge = User::create([
             'name' => 'charge',
             'email' => 'charge@test.dev',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ]);
 
-        $userDealership->assignRole('charge');
-
-        // Permission Dealership
-        $charge->givePermissionTo('charges.index');
-        $charge->givePermissionTo('charges.update');
-        $charge->givePermissionTo('charges.create');
-        $charge->givePermissionTo('charges.destroy');
+        $userCharge->assignRole('charge');
     }
 }
