@@ -31,4 +31,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::apiResource('/clientes', ClientsController::class);
 Route::apiResource('/peliculas', MoviesController::class);
 Route::apiResource('/alquileres', MoviesController::class);
-Route::apiResource('/roles', RoleController::class);
+// Roles Extra
+Route::get('/roles/assign', [RoleController::class, 'assign'])->name('roles.assign');
+Route::post('/roles/assign/store', [RoleController::class, 'assignStore'])->name('roles.assign.store');
+Route::resource('/roles', RoleController::class);

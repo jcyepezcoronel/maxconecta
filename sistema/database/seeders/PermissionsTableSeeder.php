@@ -54,20 +54,14 @@ class PermissionsTableSeeder extends Seeder
         $userAdmin = User::find(1);
         $userAdmin->assignRole('admin');
 
-        //User Dealership
-        $userDealership = User::create([
+        //User Charge
+        $userCharge = User::create([
             'name' => 'charge',
             'email' => 'charge@test.dev',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ]);
 
-        $userDealership->assignRole('charge');
-
-        // Permission Dealership
-        $charge->givePermissionTo('charges.index');
-        $charge->givePermissionTo('charges.update');
-        $charge->givePermissionTo('charges.create');
-        $charge->givePermissionTo('charges.destroy');
+        $userCharge->assignRole('charge');
     }
 }

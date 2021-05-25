@@ -59,13 +59,13 @@
                                         <td class="text-center">
                                             <div class="btn-group">
                                                 <a href="{{route('roles.edit', $role->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar Rol {{$role->name}}">
-                                                    <i class="fa fa-pencil"></i>
+                                                    Editar
                                                 </a>
                                                 <form action="{{route('roles.destroy', $role->id)}}" method="POST">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Borrar Rol {{$role->name}}" onclick="">
-                                                        <i class="fa fa-times"></i>
+                                                        Borrar
                                                     </button>
                                                 </form>
                                             </div>
