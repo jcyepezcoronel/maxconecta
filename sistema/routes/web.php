@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\MoviesController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +31,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::apiResource('/clientes', ClientsController::class);
 Route::apiResource('/peliculas', MoviesController::class);
 Route::apiResource('/alquileres', MoviesController::class);
-
+Route::apiResource('/roles', RoleController::class);
