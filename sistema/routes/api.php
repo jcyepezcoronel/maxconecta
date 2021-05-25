@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClientsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::prefix('clients')->group(function () {
+    Route::get('/list', [ClientsController::class, 'list']);
+    Route::post('/store', [ClientsController::class, 'store']);
+    Route::get('/show', [ClientsController::class, 'show']);
+    Route::post('/update', [ClientsController::class, 'update']);
+    Route::post('/delete', [ClientsController::class, 'destroy']);
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Clients;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ClientsController extends Controller
 {
@@ -12,9 +13,14 @@ class ClientsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function list()
     {
-        return Clients::get();
+        $clients = Clients::get();
+        $response = [
+            'status' => 200,
+            'response' => $clients 
+        ];
+        return json_encode($response);
     }
 
     /**
@@ -26,6 +32,42 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'names' => 'required',
+            'surnames' => 'required',
+            'user_name' => 'required',
+            'dni' => 'required',
+            'description' => 'required',
+        ]);
+        //dd($validator->fails());
+        if ($validator->fails()) {
+            $response = [
+                'status' => 500,
+                'response' => 'Hay algunos campos requeridos faltantes.' 
+            ];
+            return json_encode($response);
+        }
+
+        $newClient = new Clients();
+        $newClient->names = $request->input('names');
+        $newClient->surnames = $request->input('surnames');
+        $newClient->user_name = $request->input('user_name');
+        $newClient->dni = $request->input('dni');
+        $newClient->description = $request->input('description');
+
+        $saved = $newClient->save();
+        if($saved) {
+            $response = [
+                'status' => 200,
+                'response' => 'Cliente almacenado correctamente' 
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'response' => 'Error al guardar el Cliente' 
+            ];
+        }
+        return json_encode($response);
     }
 
     /**
@@ -34,9 +76,32 @@ class ClientsController extends Controller
      * @param  \App\Models\Clients  $clients
      * @return \Illuminate\Http\Response
      */
-    public function show(Clients $clients)
+    public function show(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+        //dd($validator->fails());
+        if ($validator->fails()) {
+            $response = [
+                'status' => 500,
+                'response' => 'Id del usuario requerido.' 
+            ];
+            return json_encode($response);
+        }
+        $client = Clients::find($request->input('id'));
+        if(is_null($client)) {
+            $response = [
+                'status' => 500,
+                'response' => 'Usuario no encontrado.' 
+            ];
+        } else {
+            $response = [
+                'status' => 200,
+                'response' => $client
+            ];
+        }
+        return json_encode($response);
     }
 
     /**
@@ -46,9 +111,45 @@ class ClientsController extends Controller
      * @param  \App\Models\Clients  $clients
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Clients $clients)
+    public function update(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'names' => 'required',
+            'surnames' => 'required',
+            'user_name' => 'required',
+            'dni' => 'required',
+            'description' => 'required',
+        ]);
+        //dd($validator->fails());
+        if ($validator->fails()) {
+            $response = [
+                'status' => 500,
+                'response' => 'Id del usuario requerido.' 
+            ];
+            return json_encode($response);
+        }
+        $client = Clients::find($request->input('id'));
+        if(is_null($client)) {
+            $response = [
+                'status' => 500,
+                'response' => 'Usuario no encontrado.' 
+            ];
+        } else {
+            $client->names = $request->input('names');
+            $client->surnames = $request->input('surnames');
+            $client->user_name = $request->input('user_name');
+            $client->dni = $request->input('dni');
+            $client->description = $request->input('description');
+
+            $saved = $client->save();
+
+            $response = [
+                'status' => 200,
+                'response' =>'Cliente actualizado exitosamente'
+            ];
+        }
+        return json_encode($response);
     }
 
     /**
@@ -57,8 +158,32 @@ class ClientsController extends Controller
      * @param  \App\Models\Clients  $clients
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Clients $clients)
+    public function destroy(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+        //dd($validator->fails());
+        if ($validator->fails()) {
+            $response = [
+                'status' => 500,
+                'response' => 'Id del usuario requerido.' 
+            ];
+            return json_encode($response);
+        }
+        $client = Clients::find($request->input('id'));
+        if(is_null($client)) {
+            $response = [
+                'status' => 500,
+                'response' => 'Usuario no encontrado.' 
+            ];
+        } else {
+            $client->delete();
+            $response = [
+                'status' => 200,
+                'response' => 'Cliente eliminado exitosamente'
+            ];
+        }
+        return json_encode($response);
     }
 }
