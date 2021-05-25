@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-100">
 
 <head>
     <meta charset="utf-8">
@@ -21,8 +21,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
-<body class="full_absolute no-overflow">
-    <div id="app" class="bg-gra-main h-100">
+<body class="full_absolute" style="background-color: transparent;">
+    <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background-color: #395761;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -70,7 +70,7 @@
                 </div>
             </div>
         </nav>
-        <main class="py-4 h-100">
+        <main class="py-4 h-100 bg-gra-main">
             <div class="container h-100">
                 <div class="row h-100">
                     @auth

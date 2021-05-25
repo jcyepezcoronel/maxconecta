@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-            <div class="card h-75">
+            <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
-                <div class="card-body">
+                <div class="card-body" style="overflow-y: scroll;">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
-    
-                    <example-component></example-component>
+                    <!-- Component Vue -->
+                    <List />
                 </div>
             </div>
 @endsection

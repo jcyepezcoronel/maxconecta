@@ -1,5 +1,4 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
-@import url(styles.css);
 @charset "UTF-8";
 /*!
  * Bootstrap v5.0.1 (https://getbootstrap.com/)
@@ -10833,4 +10832,27 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+.bg-gra-main {
+  background: #538f8b;
+  background: linear-gradient(180deg, #538f8b 0%, #0a3249 100%);
+}
+
+.bg-main {
+  background-color: #203346 !important;
+}
+
+.main-color-button {
+  background-color: #DDCC05 !important;
+  color: white !important;
+}
+
+.full_absolute {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.no-overflow {
+  overflow: hidden !important;
 }
