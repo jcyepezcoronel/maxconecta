@@ -22,8 +22,13 @@ window.Vue = require('vue').default;
 Vue.component('List', require('./components/List.vue').default);
 
 // Clients
-Vue.component('ListClients', require('./components/clients/List.vue').default);
+Vue.component('ListUsers', require('./components/clients/List.vue').default);
 Vue.component('FormClient', require('./components/clients/Form.vue').default);
+
+
+// Users
+Vue.component('ListUsers', require('./components/users/List.vue').default);
+Vue.component('FormUsers', require('./components/users/Form.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

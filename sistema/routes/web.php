@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\MoviesController;
 use App\Http\Controllers\RentalsController;
-use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -32,6 +32,9 @@ Route::get('/cliente/editar/{id}', [HomeController::class, 'editClient'])->name(
 Route::get('/clientes/registrar', [HomeController::class, 'registerClient'])->name('registerClient');
 Route::get('/clientes/editar', [HomeController::class, 'editClient'])->name('editClient');
 
+Route::resources([
+    'usuarios' =>  UserController::class,
+]);
 
 Route::apiResource('/clients', ClientsController::class);
 Route::apiResource('/movies', MoviesController::class);
