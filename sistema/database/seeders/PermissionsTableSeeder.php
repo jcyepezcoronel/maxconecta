@@ -20,15 +20,15 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         // Create Permission Users
-        Permission::create(['title' => 'Ver Usuarioss', 'name' => 'users.index']);
+        Permission::create(['title' => 'Ver Usuarios', 'name' => 'users.index']);
         Permission::create(['title' => 'Editar Usuarios', 'name' => 'users.update']);
         Permission::create(['title' => 'Borrar Usuarios', 'name' => 'users.destroy']);
 
         // Create Permission Client
-         Permission::create(['title' => 'Ver Clients', 'name' => 'client.index']);
-         Permission::create(['title' => 'Editar Clients', 'name' => 'client.update']);
-         Permission::create(['title' => 'Crear Clients', 'name' => 'client.create']);
-         Permission::create(['title' => 'Borrar Clients', 'name' => 'client.destroy']);
+         Permission::create(['title' => 'Ver Clientes', 'name' => 'client.index']);
+         Permission::create(['title' => 'Editar Clientes', 'name' => 'client.update']);
+         Permission::create(['title' => 'Crear Clientes', 'name' => 'client.create']);
+         Permission::create(['title' => 'Borrar Clientes', 'name' => 'client.destroy']);
 
         // Create Permission Alquileres
         Permission::create(['title' => 'Ver Alquileres', 'name' => 'rentals.index']);

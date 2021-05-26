@@ -84,8 +84,11 @@
                             <nav class="nav flex-column align-content-center mt-3">
                                 <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/clientes">Clientes</a>
                                 <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/peliculas">Peliculas</a>
-                                <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/alquiler">Alquiler</a>
-                                <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/usuarios">Usuarios</a>
+                                @role('admin')
+                                    <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/usuarios">Usuarios</a>
+                                @else
+                                    <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/alquiler">Alquiler</a>
+                                @endrole
                             </nav>
                         </div>
                         </div>
