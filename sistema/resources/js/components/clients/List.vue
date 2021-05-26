@@ -1,29 +1,94 @@
 <template>
-  <div class="table-responsive tableFixHead">
-    <table class="table">
-      <tbody>
-        <tr v-for="(item, index) in data" :key="index">
-          <th class="col-1">{{ index + 1 }}</th>
-          <td class="col-2">{{ item.names }}</td>
-          <td class="col-2">{{ item.surnames }}</td>
-          <td class="col-2">{{ item.dni }}</td>
-          <td class="col-3">{{ item.description }}</td>
-          <td class="col-2 text-center">
-            <a class="btn btn-outline-dark p-0" style="border: none;" :href="'/cliente/editar/'+item.id" role="button"><i class="bi bi-pencil-square bi-light" style="font-size: 13pt;"></i></a>   
-            <a class="btn btn-outline-dark p-0" style="border: none;" href="#" @click="del(item)" role="button"><i class="bi bi-trash" style="font-size: 13pt;"></i></a>  
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div>
+    <div class="table-responsive tableFixHead">
+      <table class="table">
+        <tbody>
+          <tr v-for="(item, index) in data" :key="index">
+            <th class="col-1">{{ index + 1 }}</th>
+            <td class="col-2">{{ item.names }}</td>
+            <td class="col-2">{{ item.surnames }}</td>
+            <td class="col-2">{{ item.dni }}</td>
+            <td class="col-3">{{ item.description }}</td>
+            <td class="col-2 text-center">
+              <a
+                class="btn btn-outline-dark p-0"
+                style="border: none"
+                :href="'/cliente/editar/' + item.id"
+                role="button"
+                ><i
+                  class="bi bi-pencil-square bi-light"
+                  style="font-size: 13pt"
+                ></i
+              ></a>
+              <a
+                class="btn btn-outline-dark p-0"
+                style="border: none"
+                href="#"
+                @click="confirm(item)"
+                role="button"
+                ><i class="bi bi-trash" style="font-size: 13pt"></i
+              ></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Modal -->
+    <button id="launchConfirm" type="button" class="btn btn-primary" style="display: none;" data-bs-toggle="modal" data-bs-target="#confirm">
+            Launch demo modal
+        </button>
+    <div
+      class="modal fade"
+      id="confirm"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog text-white">
+        <div class="modal-content bg-main">
+          <div class="modal-header">
+            <h5 id="modal-title" class="modal-title">
+              Desea eliminar a <b>{{modalData.names}}</b> ?
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <!-- <div id="modal-body" class="modal-body">...</div> -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              @click="del(modalData);"
+              class="btn btn-outline-light"
+            >
+              OK
+            </button>
+            <button
+              data-bs-dismiss="modal"
+              type="button"
+              class="btn btn-outline-light"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import $ from 'jquery'
+import $ from "jquery";
 import axios from "axios";
 export default {
   data: (vm) => ({
     data: [],
+    modalData: {
+      name: ''
+    },
   }),
   methods: {
     loadData() {
@@ -43,9 +108,30 @@ export default {
           console.log("loadData", error);
         });
     },
+    confirm(item) {
+      this.modalData = item;
+      $('#launchConfirm').click();
+    },
     del(item) {
-      console.log('Delete', item)
-    }
+      console.log("Delete", item);
+      axios['delete']('/api/clients/delete/'+item.id, {
+        headers: {
+          "Content-Type": "application/json",
+          //   Authorization: vm.$auth.strategy.token.get(),
+        },
+      })
+        .then((res) => {
+          // console.log("registrar", res.data.response);         
+          $('#modal-body').html(res.data.response);
+          $('#launchNotication').click();
+          $('#modal-close').on('click', () => {
+          });
+          this.loadData();
+        })
+        .catch((error) => {
+          console.log("registrar", error);
+        });
+    },
   },
   mounted() {
     console.log("Component mounted.");

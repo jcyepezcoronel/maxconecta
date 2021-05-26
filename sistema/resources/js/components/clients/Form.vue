@@ -32,8 +32,11 @@
     </div>
 
     <div class="col-12">
-      <button class="btn btn-outline-dark" type="button" @click="validar">
+      <button v-if="mode == 'register'" class="btn btn-outline-dark" type="button" @click="validar">
         REGISTRAR
+      </button>
+      <button v-if="mode == 'edit'" class="btn btn-outline-dark" type="button" @click="validar">
+        EDITAR
       </button>
     </div>
   </form>
@@ -44,6 +47,7 @@
 import $ from 'jquery'
 import axios from "axios";
 export default {
+    props: ["data", "mode"],
     data: (vm) => ({
         form: {
             names: null,
@@ -53,7 +57,10 @@ export default {
         }
   }),
   mounted() {
-    console.log("Component mounted.");     
+    console.log("Component mounted.", this.mode, this.data);  
+    if (this.mode == 'edit') {
+      this.form = this.data;
+    }   
   },
   methods: {
     validar() {
@@ -66,13 +73,25 @@ export default {
           event.stopPropagation();
           form.classList.add("was-validated");
         } else {
-          vm.registrar();
+          vm.procesar();
         }
       });
     },
-    registrar() {
+    procesar() {
         console.log('registrar form', this.form);
-        axios["post"]("/api/clients/store", this.form, {
+        let method,
+        url;
+
+        if (this.mode == 'register') {
+          method = 'post';
+          url = '/api/clients/store'
+        }
+
+        if (this.mode == 'edit') {
+          method = 'post';
+          url = '/api/clients/update'
+        }
+        axios[method](url, this.form, {
         headers: {
           "Content-Type": "application/json",
           //   Authorization: vm.$auth.strategy.token.get(),

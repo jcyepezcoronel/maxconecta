@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Clients;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -53,7 +54,8 @@ class HomeController extends Controller
      */
     public function editClient($id)
     {   
-        return view('clients.edit')->with('client_id',$id);
+        $client = Clients::find($id);
+        return view('clients.edit', ['client' => $client]);
     }
 
 }
