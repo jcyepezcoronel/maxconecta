@@ -5054,9 +5054,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ["data", "mode"],
   data: function data(vm) {
     return {
       form: {
@@ -5068,7 +5072,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log("Component mounted.");
+    console.log("Component mounted.", this.mode, this.data);
+
+    if (this.mode == 'edit') {
+      this.form = this.data;
+    }
   },
   methods: {
     validar: function validar() {
@@ -5081,13 +5089,25 @@ __webpack_require__.r(__webpack_exports__);
           event.stopPropagation();
           form.classList.add("was-validated");
         } else {
-          vm.registrar();
+          vm.procesar();
         }
       });
     },
-    registrar: function registrar() {
+    procesar: function procesar() {
       console.log('registrar form', this.form);
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/clients/store", this.form, {
+      var method, url;
+
+      if (this.mode == 'register') {
+        method = 'post';
+        url = '/api/clients/store';
+      }
+
+      if (this.mode == 'edit') {
+        method = 'post';
+        url = '/api/clients/update';
+      }
+
+      (axios__WEBPACK_IMPORTED_MODULE_1___default())[method](url, this.form, {
         headers: {
           "Content-Type": "application/json" //   Authorization: vm.$auth.strategy.token.get(),
 
@@ -5143,12 +5163,77 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data(vm) {
     return {
-      data: []
+      data: [],
+      modalData: {
+        name: ''
+      }
     };
   },
   methods: {
@@ -5167,8 +5252,29 @@ __webpack_require__.r(__webpack_exports__);
         console.log("loadData", error);
       });
     },
+    confirm: function confirm(item) {
+      this.modalData = item;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#launchConfirm').click();
+    },
     del: function del(item) {
-      console.log('Delete', item);
+      var _this = this;
+
+      console.log("Delete", item);
+      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/clients/delete/' + item.id, {
+        headers: {
+          "Content-Type": "application/json" //   Authorization: vm.$auth.strategy.token.get(),
+
+        }
+      }).then(function (res) {
+        // console.log("registrar", res.data.response);         
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#modal-body').html(res.data.response);
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#launchNotication').click();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#modal-close').on('click', function () {});
+
+        _this.loadData();
+      })["catch"](function (error) {
+        console.log("registrar", error);
+      });
     }
   },
   mounted: function mounted() {
@@ -41594,15 +41700,29 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col-12" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-outline-dark",
-              attrs: { type: "button" },
-              on: { click: _vm.validar }
-            },
-            [_vm._v("\n        REGISTRAR\n      ")]
-          )
+          _vm.mode == "register"
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-dark",
+                  attrs: { type: "button" },
+                  on: { click: _vm.validar }
+                },
+                [_vm._v("\n        REGISTRAR\n      ")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.mode == "edit"
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-dark",
+                  attrs: { type: "button" },
+                  on: { click: _vm.validar }
+                },
+                [_vm._v("\n        EDITAR\n      ")]
+              )
+            : _vm._e()
         ])
       ]
     )
@@ -41631,65 +41751,151 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "table-responsive tableFixHead" }, [
-    _c("table", { staticClass: "table" }, [
-      _c(
-        "tbody",
-        _vm._l(_vm.data, function(item, index) {
-          return _c("tr", { key: index }, [
-            _c("th", { staticClass: "col-1" }, [_vm._v(_vm._s(index + 1))]),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-2" }, [_vm._v(_vm._s(item.names))]),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-2" }, [_vm._v(_vm._s(item.surnames))]),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-2" }, [_vm._v(_vm._s(item.dni))]),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-3" }, [
-              _vm._v(_vm._s(item.description))
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "col-2 text-center" }, [
+  return _c("div", [
+    _c("div", { staticClass: "table-responsive tableFixHead" }, [
+      _c("table", { staticClass: "table" }, [
+        _c(
+          "tbody",
+          _vm._l(_vm.data, function(item, index) {
+            return _c("tr", { key: index }, [
+              _c("th", { staticClass: "col-1" }, [_vm._v(_vm._s(index + 1))]),
+              _vm._v(" "),
+              _c("td", { staticClass: "col-2" }, [_vm._v(_vm._s(item.names))]),
+              _vm._v(" "),
+              _c("td", { staticClass: "col-2" }, [
+                _vm._v(_vm._s(item.surnames))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "col-2" }, [_vm._v(_vm._s(item.dni))]),
+              _vm._v(" "),
+              _c("td", { staticClass: "col-3" }, [
+                _vm._v(_vm._s(item.description))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "col-2 text-center" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-outline-dark p-0",
+                    staticStyle: { border: "none" },
+                    attrs: {
+                      href: "/cliente/editar/" + item.id,
+                      role: "button"
+                    }
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "bi bi-pencil-square bi-light",
+                      staticStyle: { "font-size": "13pt" }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-outline-dark p-0",
+                    staticStyle: { border: "none" },
+                    attrs: { href: "#", role: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.confirm(item)
+                      }
+                    }
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "bi bi-trash",
+                      staticStyle: { "font-size": "13pt" }
+                    })
+                  ]
+                )
+              ])
+            ])
+          }),
+          0
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-primary",
+        staticStyle: { display: "none" },
+        attrs: {
+          id: "launchConfirm",
+          type: "button",
+          "data-bs-toggle": "modal",
+          "data-bs-target": "#confirm"
+        }
+      },
+      [_vm._v("\n          Launch demo modal\n      ")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "confirm",
+          tabindex: "-1",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog text-white" }, [
+          _c("div", { staticClass: "modal-content bg-main" }, [
+            _c("div", { staticClass: "modal-header" }, [
               _c(
-                "a",
-                {
-                  staticClass: "btn btn-outline-dark p-0",
-                  staticStyle: { border: "none" },
-                  attrs: { href: "/cliente/editar/" + item.id, role: "button" }
-                },
+                "h5",
+                { staticClass: "modal-title", attrs: { id: "modal-title" } },
                 [
-                  _c("i", {
-                    staticClass: "bi bi-pencil-square bi-light",
-                    staticStyle: { "font-size": "13pt" }
-                  })
+                  _vm._v("\n            Desea eliminar a "),
+                  _c("b", [_vm._v(_vm._s(_vm.modalData.names))]),
+                  _vm._v(" ?\n          ")
                 ]
               ),
               _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-close",
+                attrs: {
+                  type: "button",
+                  "data-bs-dismiss": "modal",
+                  "aria-label": "Close"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
               _c(
-                "a",
+                "button",
                 {
-                  staticClass: "btn btn-outline-dark p-0",
-                  staticStyle: { border: "none" },
-                  attrs: { href: "#", role: "button" },
+                  staticClass: "btn btn-outline-light",
+                  attrs: { type: "button" },
                   on: {
                     click: function($event) {
-                      return _vm.del(item)
+                      return _vm.del(_vm.modalData)
                     }
                   }
                 },
-                [
-                  _c("i", {
-                    staticClass: "bi bi-trash",
-                    staticStyle: { "font-size": "13pt" }
-                  })
-                ]
+                [_vm._v("\n            OK\n          ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-light",
+                  attrs: { "data-bs-dismiss": "modal", type: "button" }
+                },
+                [_vm._v("\n            Cancelar\n          ")]
               )
             ])
           ])
-        }),
-        0
-      )
-    ])
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = []

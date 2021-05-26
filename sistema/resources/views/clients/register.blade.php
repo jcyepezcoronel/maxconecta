@@ -19,7 +19,7 @@
             {{ session('status') }}
         </div>
         @endif
-        <Form-Client />        
+        <Form-Client :data="''" :mode="'register'"/>        
     </div>
 </div>
 @endsection
