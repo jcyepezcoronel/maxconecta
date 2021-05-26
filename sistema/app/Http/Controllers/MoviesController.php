@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class MoviesController extends Controller
 {
-     /**
+    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
@@ -58,7 +58,9 @@ class MoviesController extends Controller
      */
     public function list()
     {
-        $movies = Movies::join('categories','categories.id','=','movies.category_id')->get();
+        $movies = Movies::join('categories','categories.id','=','movies.category_id')
+        ->addSelect('categories.id as category_id', 'categories.name as category', 'movies.*')
+        ->get();
         $response = [
             'status' => 200,
             'response' => $movies 

@@ -29,6 +29,9 @@ Vue.component('FormClient', require('./components/clients/Form.vue').default);
 Vue.component('ListMovies', require('./components/movies/List.vue').default);
 Vue.component('FormMovies', require('./components/movies/Form.vue').default);
 
+// Rentals
+Vue.component('ListRentals', require('./components/rentals/List.vue').default);
+Vue.component('FormRentals', require('./components/rentals/Form.vue').default);
 
 // Users
 Vue.component('ListUsers', require('./components/users/List.vue').default);

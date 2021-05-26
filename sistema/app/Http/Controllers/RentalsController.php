@@ -10,6 +10,37 @@ use Illuminate\Support\Facades\Validator;
 class RentalsController extends Controller
 {
     /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function listar()
+    {
+        return view('rentals.list');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function register()
+    {
+        return view('rentals.register');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function edit($id)
+    {   
+        $rental = rentals::find($id);
+        return view('rentals.edit', ['rental' => $rental]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

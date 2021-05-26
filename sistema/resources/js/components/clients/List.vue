@@ -60,6 +60,7 @@
           <!-- <div id="modal-body" class="modal-body">...</div> -->
           <div class="modal-footer">
             <button
+              data-bs-dismiss="modal"
               type="button"
               @click="del(modalData);"
               class="btn btn-outline-light"
@@ -113,8 +114,8 @@ export default {
       $('#launchConfirm').click();
     },
     del(item) {
-      console.log("Delete", item);
-      axios['delete']('/api/clients/delete/'+item.id, {
+      // console.log("Delete", item);
+      axios['post']('/api/clients/delete', {id: item.id}, {
         headers: {
           "Content-Type": "application/json",
           //   Authorization: vm.$auth.strategy.token.get(),

@@ -37,6 +37,11 @@ Route::get('/pelicula/editar/{id}', [MoviesController::class, 'edit'])->name('ed
 Route::get('/peliculas/registrar', [MoviesController::class, 'register'])->name('register');
 Route::get('/movies/categories', [MoviesController::class, 'listCategories'])->name('listCategories');
 
+// Alquiler
+Route::get('/alquiler', [RentalsController::class, 'listar'])->name('listar');
+Route::get('/alquiler/editar/{id}', [RentalsController::class, 'edit'])->name('edit');
+Route::get('/alquiler/registrar', [RentalsController::class, 'register'])->name('register');
+
 Route::resources([
     'usuarios' =>  UserController::class,
 ]);

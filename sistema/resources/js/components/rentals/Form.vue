@@ -1,48 +1,24 @@
 <template>
   <div>
     <form class="row g-3 needs-validation" novalidate>
+      <div class="col-md-4">
+        <label for="validationCustom01" class="form-label">Cliente</label>
+        <select v-model="form.client_id" id="category_id" class="form-select" aria-label="Clientes" required>
+          <option selected value="">Seleccione</option>
+          <option v-for="(client, index) in clients" :key="index" :value="client.id" :selected="form.client_id == client.id ? true : false">{{client.names}}</option>
+        </select>
+        <div class="invalid-feedback">Este campo es requerido</div>
+      </div>
+      <div class="col-md-4">
+        <label for="validationCustom01" class="form-label">Pelicula</label>
+        <select v-model="form.movie_id" id="category_id" class="form-select" aria-label="Peliculas" required>
+          <option selected value="">Seleccione</option>
+          <option v-for="(movie, index) in movies" :key="index" :value="movie.id" :selected="form.movie_id == movie.id ? true : false">{{movie.title}}</option>
+        </select>
+        <div class="invalid-feedback">Este campo es requerido</div>
+      </div>
+
       <div class="col-md-12">
-        <label for="validationCustom02" class="form-label">Imagen</label>
-        <input class="form-control" type="file" id="imagen" required />
-        <div class="invalid-feedback">Este campo es requerido</div>
-      </div>
-      <div class="col-md-4">
-        <label for="validationCustom01" class="form-label">Titulo</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="form.title"
-          id="names"
-          value=""
-          required
-        />
-        <div class="invalid-feedback">Este campo es requerido</div>
-      </div>
-      <div class="col-md-4">
-        <label for="validationCustom02" class="form-label">Categoria</label>
-        <select v-model="form.category_id" id="category_id" class="form-select" aria-label="Categoria" required>
-          <option selected value="">Seleccione</option>
-          <option v-for="(category, index) in categories" :key="index" :value="category.id" :selected="form.category_id == category.id ? true : false">{{category.name}}</option>
-        </select>
-        <div class="invalid-feedback">Este campo es requerido</div>
-      </div>
-      <div class="col-md-4">
-        <label for="validationCustom02" class="form-label">Año</label>
-        <select v-model="form.year" id="year" class="form-select" aria-label="Año" required>
-          <option selected value="">Seleccione</option>
-          <option v-for="(year, index) in years" :key="index" :value="year">{{year}}</option>
-        </select>
-        <div class="invalid-feedback">Este campo es requerido</div>
-      </div>
-      <div class="col-md-2">
-        <label for="validationCustom02" class="form-label">Copias</label>
-        <select v-model="form.number_copies" id="category_id" class="form-select" aria-label="Copias" required>
-          <option selected value="">Seleccione</option>
-          <option v-for="n in 1000" :key="n" :value="n">{{n}}</option>
-        </select>
-        <div class="invalid-feedback">Este campo es requerido</div>
-      </div>
-      <div class="col-md-10">
         <label for="validationCustom02" class="form-label">Descripción</label>
         <input
           type="text"
@@ -52,6 +28,24 @@
           value=""
           required
         />
+        <div class="invalid-feedback">Este campo es requerido</div>
+      </div>
+      <div class="col-md-4">
+        <label for="validationCustom02" class="form-label">Fecha de Inicio</label>
+        <div class='input-group date' id='datetimepicker'>
+        <input type='text' class="form-control" />
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+        </div>
+        <div class="invalid-feedback">Este campo es requerido</div>
+      </div>
+      <div class="col-md-2">
+        <label for="validationCustom02" class="form-label">Copias</label>
+        <select v-model="form.number_copies" id="category_id" class="form-select" aria-label="Copias" required>
+          <option selected value="">Seleccione</option>
+          <option v-for="n in 1000" :key="n" :value="n">{{n}}</option>
+        </select>
         <div class="invalid-feedback">Este campo es requerido</div>
       </div>
 
@@ -84,10 +78,12 @@ export default {
   props: ["data", "mode"],
   data: (vm) => ({
     categories: [],
+    clients: [],
+    movies: [],
     image: null,
     form: {
-      title: null,
-      category_id: null,
+      client_id: null,
+      movie_id: null,
       year: null,
       image: null,
       number_copies: null,
@@ -102,19 +98,16 @@ export default {
   },
   mounted() {
     console.log("Component mounted.", this.mode, this.data);
-    this.getCategories();
+    this.getMovies();
+    this.getClients();
+     $('.date').datepicker({  
+       format: 'mm-dd-yyyy'
+     });
     if (this.mode == "edit") {
       this.form = this.data;
     }
   },
   methods: {
-    toBase64() {
-      const file = document.getElementById("imagen").files[0];
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        e.target.result;
-      };
-    },
     async validar() {
       const vm = this,
         forms = document.querySelectorAll(".needs-validation");
@@ -167,17 +160,33 @@ export default {
           console.log("registrar", error);
         });
     },
-    getCategories() {
+    getMovies() {
       const vm = this;
-      axios['get']('/movies/categories', this.form, {
+      axios['get']('/api/movies/list', {
         headers: {
           "Content-Type": "application/json",
           //   Authorization: vm.$auth.strategy.token.get(),
         },
       })
         .then((res) => {
-          // console.log('Categories', res.data)
-          vm.categories = res.data;   
+          // console.log('movies', res.data.response)
+          vm.movies = res.data.response;   
+        })
+        .catch((error) => {
+          console.log("registrar", error);
+        });
+    },
+    getClients() {
+      const vm = this;
+      axios['get']('/api/clients/list', {
+        headers: {
+          "Content-Type": "application/json",
+          //   Authorization: vm.$auth.strategy.token.get(),
+        },
+      })
+        .then((res) => {
+          // console.log('movies', res.data.response)
+          vm.clients = res.data.response;   
         })
         .catch((error) => {
           console.log("registrar", error);
