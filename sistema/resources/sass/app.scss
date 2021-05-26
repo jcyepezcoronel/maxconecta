@@ -12,6 +12,12 @@
     background: linear-gradient(180deg, rgba(83,143,139,1) 0%, rgba(10,50,73,1) 100%);
 }
 
+#app {
+    height: 100%;
+}
+
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+
 .bg-main {
     background-color: #203346 !important;
 }

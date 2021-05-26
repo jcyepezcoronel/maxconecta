@@ -10838,6 +10838,16 @@ textarea.form-control-lg {
   background: linear-gradient(180deg, #538f8b 0%, #0a3249 100%);
 }
 
+#app {
+  height: 100%;
+}
+
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 .bg-main {
   background-color: #203346 !important;
 }

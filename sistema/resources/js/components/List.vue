@@ -1,18 +1,11 @@
 <template>
-  <div class="table-responsive">
+  <div class="table-responsive tableFixHead">
     <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Pokemon</th>
-          <th scope="col">Url</th>
-        </tr>
-      </thead>
       <tbody>
         <tr v-for="(item, index) in data" :key="index">
-          <th scope="row">{{ index + 1 }}</th>
-          <td>{{ item.name }}</td>
-          <td>{{ item.url }}</td>
+          <th class="col-1">{{ index + 1 }}</th>
+          <td class="col-5">{{ item.name }}</td>
+          <td class="col-6">{{ item.url }}</td>
         </tr>
       </tbody>
     </table>

@@ -19,6 +19,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
 
 <body class="full_absolute" style="background-color: transparent;">
@@ -75,25 +78,45 @@
                 <div class="row h-100">
                     @auth
                     <div class="col-2">
-                        <div class="card h-75">
-                            <nav class="nav flex-column" style="background-color: white;">
-                                <a class="nav-link active" aria-current="page" href="#">Active</a>
-                                <a class="nav-link" href="#">Link</a>
-                                <a class="nav-link" href="#">Link</a>
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        <div class="card bg-main">
+                            <nav class="nav flex-column align-content-center mt-3">
+                                <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/clientes">Clientes</a>
+                                <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="#">Peliculas</a>
+                                <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="#">Alquiler</a>
                             </nav>
                         </div>
 
                     </div>
                     <div class="col-10">
-                    @else
-                    <div class="col">
-                    @endauth
-                        @yield('content')
+                        @else
+                        <div class="col">
+                            @endauth
+                            @yield('content')
+                        </div>
+                    </div>
+                </div>
+        </main>
+
+        <button id="launchNotication" type="button" class="btn btn-primary" style="display: none;" data-bs-toggle="modal" data-bs-target="#notifications">
+            Launch demo modal
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="notifications" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog text-white">
+                <div class="modal-content bg-main">
+                    <div class="modal-header">
+                        <h5 id="modal-title" class="modal-title" id="exampleModalLabel">Notificación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="modal-body" class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-close" data-bs-dismiss="modal" type="button" class="btn btn-outline-light">OK</button>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 </body>
 

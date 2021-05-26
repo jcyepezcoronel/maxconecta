@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\MoviesController;
+use App\Http\Controllers\RentalsController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +24,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+// Clientes
+Route::get('/clientes', [HomeController::class, 'listClients'])->name('listClients');
+Route::get('/cliente/editar/{id}', [HomeController::class, 'editClient'])->name('editClient');
+Route::get('/clientes/registrar', [HomeController::class, 'registerClient'])->name('registerClient');
+Route::get('/clientes/editar', [HomeController::class, 'editClient'])->name('editClient');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::apiResource('/clientes', ClientsController::class);
-Route::apiResource('/peliculas', MoviesController::class);
-Route::apiResource('/alquileres', MoviesController::class);
+Route::apiResource('/clients', ClientsController::class);
+Route::apiResource('/movies', MoviesController::class);
+Route::apiResource('/rentals', RentalsController::class);
