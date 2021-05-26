@@ -22,8 +22,12 @@ window.Vue = require('vue').default;
 Vue.component('List', require('./components/List.vue').default);
 
 // Clients
-Vue.component('ListUsers', require('./components/clients/List.vue').default);
+Vue.component('ListClients', require('./components/clients/List.vue').default);
 Vue.component('FormClient', require('./components/clients/Form.vue').default);
+
+// Movies
+Vue.component('ListMovies', require('./components/movies/List.vue').default);
+Vue.component('FormMovies', require('./components/movies/Form.vue').default);
 
 
 // Users

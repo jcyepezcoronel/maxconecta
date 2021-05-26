@@ -8,6 +8,38 @@ use Illuminate\Support\Facades\Validator;
 
 class ClientsController extends Controller
 {
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function listar()
+    {
+        return view('clients.list');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function register()
+    {
+        return view('clients.register');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function edit($id)
+    {   
+        $client = Clients::find($id);
+        return view('clients.edit', ['client' => $client]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,6 +54,7 @@ class ClientsController extends Controller
         ];
         return json_encode($response);
     }
+    
 
     /**
      * Store a newly created resource in storage.

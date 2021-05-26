@@ -27,35 +27,4 @@ class HomeController extends Controller
         return view('home');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function listClients()
-    {
-        return view('clients.list');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function registerClient()
-    {
-        return view('clients.register');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function editClient($id)
-    {   
-        $client = Clients::find($id);
-        return view('clients.edit', ['client' => $client]);
-    }
-
 }

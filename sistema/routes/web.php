@@ -27,10 +27,15 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Clientes
-Route::get('/clientes', [HomeController::class, 'listClients'])->name('listClients');
-Route::get('/cliente/editar/{id}', [HomeController::class, 'editClient'])->name('editClient');
-Route::get('/clientes/registrar', [HomeController::class, 'registerClient'])->name('registerClient');
-Route::get('/clientes/editar', [HomeController::class, 'editClient'])->name('editClient');
+Route::get('/clientes', [ClientsController::class, 'listar'])->name('listar');
+Route::get('/cliente/editar/{id}', [ClientsController::class, 'edit'])->name('edit');
+Route::get('/clientes/registrar', [ClientsController::class, 'register'])->name('register');
+
+// Peliculas
+Route::get('/peliculas', [MoviesController::class, 'listar'])->name('listar');
+Route::get('/pelicula/editar/{id}', [MoviesController::class, 'edit'])->name('edit');
+Route::get('/peliculas/registrar', [MoviesController::class, 'register'])->name('register');
+Route::get('/movies/categories', [MoviesController::class, 'listCategories'])->name('listCategories');
 
 Route::resources([
     'usuarios' =>  UserController::class,

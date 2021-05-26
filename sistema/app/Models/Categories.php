@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Movies extends Model
+class Categories extends Model
 {
     use HasFactory;
 
@@ -15,11 +15,6 @@ class Movies extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
-        'category_id',
-        'image',
-        'year',
-        'number_copies',
-        'description',
+        'name'
     ];
 }

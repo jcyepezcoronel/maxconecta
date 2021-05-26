@@ -82,7 +82,11 @@ export default {
         },
       })
       .then((res) => {
-        window.location.href = '/usuarios'
+        $('#modal-body').html('Usuario actualizado exitosamente');
+        $('#launchNotication').click();
+        $('#modal-close').on('click', () => {
+          window.location.href = '/usuarios';
+        })
       })
       .catch((error) => {
         console.log("registrar", error);
@@ -95,7 +99,12 @@ export default {
         },
       })
       .then((res) => {
-        window.location.href = '/usuarios'
+        // window.location.href = '/usuarios'
+        $('#modal-body').html('Usuario almacenado correctamente');
+        $('#launchNotication').click();
+        $('#modal-close').on('click', () => {
+          window.location.href = '/usuarios';
+        })
       })
       .catch((error) => {
         console.log("registrar", error);

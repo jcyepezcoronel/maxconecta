@@ -3,11 +3,54 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movies;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class MoviesController extends Controller
 {
+     /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function listar()
+    {
+        return view('movies.list');
+    }
+
+     /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function listCategories()
+    {
+        $categories = Categories::get();
+        return json_encode($categories);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function register()
+    {
+        return view('movies.register');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function edit($id)
+    {   
+        $movie = Movies::find($id);
+        return view('movies.edit', ['movie' => $movie]);
+    }
+
     /**
      * Display a listing of the resource.
      *

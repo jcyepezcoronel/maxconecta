@@ -16,6 +16,11 @@
     height: 100%;
 }
 
+table.text-vertical-center th,
+table.text-vertical-center td {
+    vertical-align: middle !important;
+}
+
 .tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
 
 .bg-main {
