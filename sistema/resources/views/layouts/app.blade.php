@@ -41,9 +41,9 @@
                         <!-- Authentication Links -->
                         @guest
                         @if (Route::has('login'))
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Entrar') }}</a>
-                        </li>
+                        </li> -->
                         @endif
 
                         @if (Route::has('register'))
@@ -53,8 +53,8 @@
                         @endif
                         @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }} 
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -79,12 +79,15 @@
                     @auth
                     <div class="col-2">
                         <div class="card bg-main">
+                        <div class="card-body px-0">
+                                <h5 class="card-title text-center text-white">Menu</h5>
                             <nav class="nav flex-column align-content-center mt-3">
                                 <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/clientes">Clientes</a>
                                 <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/peliculas">Peliculas</a>
                                 <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/alquiler">Alquiler</a>
                                 <a class="nav-link btn btn-outline-light text-white mb-3" style="width: 80%;" href="/usuarios">Usuarios</a>
                             </nav>
+                        </div>
                         </div>
 
                     </div>

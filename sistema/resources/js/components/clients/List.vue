@@ -2,7 +2,7 @@
   <div>
     <div class="table-responsive tableFixHead">
       <table class="table">
-        <tbody>
+        <tbody v-if="data.length > 0">
           <tr v-for="(item, index) in data" :key="index">
             <th class="col-1">{{ index + 1 }}</th>
             <td class="col-2">{{ item.names }}</td>
@@ -28,6 +28,13 @@
                 role="button"
                 ><i class="bi bi-trash" style="font-size: 13pt"></i
               ></a>
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="6">
+              No existe clientes registrados
             </td>
           </tr>
         </tbody>

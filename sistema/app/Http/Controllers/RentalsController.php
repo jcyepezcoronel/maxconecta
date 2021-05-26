@@ -202,7 +202,7 @@ class RentalsController extends Controller
      * @param  \App\Models\rentals  $rentals
      * @return \Illuminate\Http\Response
      */
-    public function destroy(rentals $rentals)
+    public function destroy(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required',

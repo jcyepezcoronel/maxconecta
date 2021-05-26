@@ -2,19 +2,18 @@
   <div>
     <div class="table-responsive tableFixHead">
       <table class="table text-vertical-center">
-        <tbody>
+        <tbody v-if="data.length > 0">
           <tr v-for="(item, index) in data" :key="index">
-            <th class="col-1"><img :src="item.image" class="img-fluid" alt="Image" style="width"></th>
-            <td class="col-2">{{ item.title }}</td>
-            <td class="col-2 text-center">{{ item.category }}</td>
-            <td class="col-2 text-center">{{ item.year }}</td>
-            <td class="col-1 text-center">{{ item.number_copies }}</td>
+            <td class="col-2 text-left">{{ item.clientnames }} {{item.clientsurnames}}</td>
+            <td class="col-2 text-center">{{ item.movietitle }}</td>
+            <td class="col-2 text-center">{{ item.delivery_date }}</td>
+            <td class="col-2 text-center">{{ item.return_date }}</td>
             <td class="col-2">{{ item.description }}</td>
             <td class="col-2 text-center">
               <a
                 class="btn btn-outline-dark p-0"
                 style="border: none"
-                :href="'/pelicula/editar/' + item.id"
+                :href="'/alquiler/editar/' + item.id"
                 role="button"
                 ><i
                   class="bi bi-pencil-square bi-light"
@@ -29,6 +28,13 @@
                 role="button"
                 ><i class="bi bi-trash" style="font-size: 13pt"></i
               ></a>
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="6">
+              No existe alquileres registrados
             </td>
           </tr>
         </tbody>
@@ -96,7 +102,7 @@ export default {
     loadData() {
       const vm = this;
       console.log("loadData");
-      axios["get"]("api/movies/list", {
+      axios["get"]("api/rentals/list", {
         headers: {
           "Content-Type": "application/json",
           //   Authorization: vm.$auth.strategy.token.get(),
@@ -116,7 +122,7 @@ export default {
     },
     del(item) {
       // console.log("Delete", item);
-      axios['post']('/api/movies/delete', {id: item.id},{
+      axios['post']('/api/rentals/delete', {id: item.id},{
         headers: {
           "Content-Type": "application/json",
           //   Authorization: vm.$auth.strategy.token.get(),

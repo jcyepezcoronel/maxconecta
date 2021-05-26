@@ -19,7 +19,7 @@
             {{ session('status') }}
         </div>
         @endif
-        <Form-Movies :data="{{ $movie }}" :mode="'edit'" />        
+        <Form-Rentals :data="{{ $rental }}" :mode="'edit'" />        
     </div>
 </div>
 @endsection

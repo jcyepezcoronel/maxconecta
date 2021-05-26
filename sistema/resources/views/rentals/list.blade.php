@@ -14,11 +14,10 @@
                 <table class="table text-white mb-1">
                 <thead>
                     <tr>
-                    <th class="col-1"></th>
-                    <th class="col-2">Titulo</th>
-                    <th class="col-2 text-center">Cateogoria</th>
-                    <th class="col-2 text-center">Año</th>
-                    <th class="col-1 text-center">Copias</th>
+                    <th class="col-2 text-left">Cliente</th>
+                    <th class="col-2 text-center">Pelicula</th>
+                    <th class="col-2 text-center">F. Inicio</th>
+                    <th class="col-2 text-center">F. Devolución</th>
                     <th class="col-2">Descripción</th>
                     <th class="col-2 text-center">Acciones</th>
                     </tr>
@@ -32,7 +31,7 @@
                         </div>
                     @endif
                     <!-- Component Vue -->
-                    <List-Movies />
+                    <List-Rentals />
                 </div>
             </div>
 @endsection

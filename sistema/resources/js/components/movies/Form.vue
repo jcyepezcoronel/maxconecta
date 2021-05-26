@@ -22,7 +22,7 @@
         <label for="validationCustom02" class="form-label">Categoria</label>
         <select v-model="form.category_id" id="category_id" class="form-select" aria-label="Categoria" required>
           <option selected value="">Seleccione</option>
-          <option v-for="(category, index) in categories" :key="index" :value="category.id" :selected="form.category_id == category.id ? true : false">{{category.name}}</option>
+          <option v-for="(category, index) in categories" :key="index" :value="category.id" :selected="form.category_id == category.id">{{category.name}}</option>
         </select>
         <div class="invalid-feedback">Este campo es requerido</div>
       </div>

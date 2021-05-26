@@ -3,7 +3,7 @@
     <form class="row g-3 needs-validation" novalidate>
       <div class="col-md-4">
         <label for="validationCustom01" class="form-label">Cliente</label>
-        <select v-model="form.client_id" id="category_id" class="form-select" aria-label="Clientes" required>
+        <select v-model="form.client_id" id="category_id" class="form-select" aria-label="Clientes" :disabled="mode == 'edit'" required>
           <option selected value="">Seleccione</option>
           <option v-for="(client, index) in clients" :key="index" :value="client.id" :selected="form.client_id == client.id ? true : false">{{client.names}}</option>
         </select>
@@ -11,12 +11,48 @@
       </div>
       <div class="col-md-4">
         <label for="validationCustom01" class="form-label">Pelicula</label>
-        <select v-model="form.movie_id" id="category_id" class="form-select" aria-label="Peliculas" required>
+        <select v-model="form.movie_id" id="category_id" class="form-select" aria-label="Peliculas" :disabled="mode == 'edit'" required>
           <option selected value="">Seleccione</option>
-          <option v-for="(movie, index) in movies" :key="index" :value="movie.id" :selected="form.movie_id == movie.id ? true : false">{{movie.title}}</option>
+          <option v-for="(movie, index) in movies" :key="index" :value="movie.id" :selected="form.movie_id == movie.id">{{movie.title}}</option>
         </select>
         <div class="invalid-feedback">Este campo es requerido</div>
       </div>
+
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-4">
+        <label for="validationCustom02" class="form-label">Fecha de Inicio</label>
+        <div>
+          <date-picker v-model="form.delivery_date" required format="DD/MM/YYYY" valueType="YYYY-MM-DD"></date-picker>
+        </div>
+        <input
+          type="text"
+          style="display: none;"
+          class="form-control"
+          v-model="form.delivery_date"
+          id="date"
+          value=""
+          required
+        />
+        <div class="invalid-feedback">Este campo es requerido</div>
+      </div>
+      <div class="col-md-4">
+        <label for="validationCustom02" class="form-label">Fecha de Devolución</label>
+        <div>
+          <date-picker v-model="form.return_date" required format="DD/MM/YYYY" valueType="YYYY-MM-DD"></date-picker>
+        </div>
+        <input
+          type="text"
+          style="display: none;"
+          class="form-control"
+          v-model="form.return_date	"
+          id="date"
+          value=""
+          required
+        />
+        <div class="invalid-feedback">Este campo es requerido</div>
+      </div>
+
 
       <div class="col-md-12">
         <label for="validationCustom02" class="form-label">Descripción</label>
@@ -26,26 +62,8 @@
           v-model="form.description"
           id="description"
           value=""
-          required
+          :disabled="mode == 'edit'"
         />
-        <div class="invalid-feedback">Este campo es requerido</div>
-      </div>
-      <div class="col-md-4">
-        <label for="validationCustom02" class="form-label">Fecha de Inicio</label>
-        <div class='input-group date' id='datetimepicker'>
-        <input type='text' class="form-control" />
-        <span class="input-group-addon">
-          <span class="glyphicon glyphicon-calendar"></span>
-        </span>
-        </div>
-        <div class="invalid-feedback">Este campo es requerido</div>
-      </div>
-      <div class="col-md-2">
-        <label for="validationCustom02" class="form-label">Copias</label>
-        <select v-model="form.number_copies" id="category_id" class="form-select" aria-label="Copias" required>
-          <option selected value="">Seleccione</option>
-          <option v-for="n in 1000" :key="n" :value="n">{{n}}</option>
-        </select>
         <div class="invalid-feedback">Este campo es requerido</div>
       </div>
 
@@ -74,7 +92,10 @@
 <script>
 import $ from "jquery";
 import axios from "axios";
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 export default {
+  components: { DatePicker },
   props: ["data", "mode"],
   data: (vm) => ({
     categories: [],
@@ -84,9 +105,7 @@ export default {
     form: {
       client_id: null,
       movie_id: null,
-      year: null,
-      image: null,
-      number_copies: null,
+      delivery_date: null,
       description: null,
     },
   }),
@@ -100,9 +119,6 @@ export default {
     console.log("Component mounted.", this.mode, this.data);
     this.getMovies();
     this.getClients();
-     $('.date').datepicker({  
-       format: 'mm-dd-yyyy'
-     });
     if (this.mode == "edit") {
       this.form = this.data;
     }
@@ -112,6 +128,8 @@ export default {
       const vm = this,
         forms = document.querySelectorAll(".needs-validation");
 
+        console.log(this.form.delivery_date);
+
       // Loop over them and prevent submission
       Array.prototype.slice.call(forms).forEach(function (form) {
         if (!form.checkValidity()) {
@@ -119,13 +137,7 @@ export default {
           event.stopPropagation();
           form.classList.add("was-validated");
         } else {
-          const file = document.getElementById("imagen").files[0],
-            reader = new FileReader();
-          reader.onload = function (e) {
-            vm.form.image = e.target.result;
             vm.procesar();
-          };
-          reader.readAsDataURL(file);
         }
       });
     },
@@ -135,12 +147,12 @@ export default {
 
       if (this.mode == "register") {
         method = "post";
-        url = "/api/movies/store";
+        url = "/api/rentals/store";
       }
 
       if (this.mode == "edit") {
         method = "post";
-        url = "/api/movies/update";
+        url = "/api/rentals/update";
       }
       axios[method](url, this.form, {
         headers: {
@@ -153,7 +165,7 @@ export default {
           $("#modal-body").html(res.data.response);
           $("#launchNotication").click();
           $("#modal-close").on("click", () => {
-            window.location.href = "/peliculas";
+            window.location.href = "/alquiler";
           });
         })
         .catch((error) => {

@@ -2,7 +2,7 @@
   <div>
     <div class="table-responsive tableFixHead">
       <table class="table text-vertical-center">
-        <tbody>
+        <tbody v-if="data.length > 0">
           <tr v-for="(item, index) in data" :key="index">
             <th class="col-1"><img :src="item.image" class="img-fluid" alt="Image" style="width"></th>
             <td class="col-2">{{ item.title }}</td>
@@ -29,6 +29,13 @@
                 role="button"
                 ><i class="bi bi-trash" style="font-size: 13pt"></i
               ></a>
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="6">
+              No existe peliculas registradas
             </td>
           </tr>
         </tbody>
