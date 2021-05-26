@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use App\Models\Categories;
+
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -54,6 +56,15 @@ class PermissionsTableSeeder extends Seeder
             'email' => 'charge@test.dev',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+        ]);
+
+        //User Charge
+        $newcategorie1 = Categories::create([
+            'name' => 'categoria1',
+        ]);
+
+        $newcategorie2 = Categories::create([
+            'name' => 'categoria2',
         ]);
 
         $userCharge->assignRole('charge');

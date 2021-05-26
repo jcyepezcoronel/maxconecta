@@ -97,6 +97,7 @@ class RentalsController extends Controller
         $newRental->movie_id = $request->input('movie_id');
         $newRental->delivery_date = $request->input('delivery_date');
         $newRental->return_date = $request->input('return_date');
+        $newRental->description = $request->input('description');
 
         $saved = $newRental->save();
         if($saved) {
