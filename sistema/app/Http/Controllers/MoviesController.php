@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Movies;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MoviesController extends Controller
 {
@@ -12,9 +13,14 @@ class MoviesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function list()
     {
-        //
+        $movies = Movies::join('categories','categories.id','=','movies.category_id')->get();
+        $response = [
+            'status' => 200,
+            'response' => $movies 
+        ];
+        return json_encode($response);
     }
 
     /**
@@ -25,7 +31,51 @@ class MoviesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'category_id' => 'required',
+            'year' => 'required',
+            'description' => 'required',
+            'number_copies' => 'required',
+            'image' => 'required',
+        ]);
+        //dd($validator->fails());
+        if ($validator->fails()) {
+            $response = [
+                'status' => 500,
+                'response' => 'Hay algunos campos requeridos faltantes.' 
+            ];
+            return json_encode($response);
+        }
+        if(strlen($request->input('year')) != 4 || !is_numeric($request->input('year'))){
+            $response = [
+                'status' => 500,
+                'response' => 'Formato de año incorrecto.' 
+            ];
+            return json_encode($response);
+        }
+
+        $newMovie = new Movies();
+        $newMovie->title = $request->input('title');
+        $newMovie->category_id = $request->input('category_id');
+        $newMovie->year = $request->input('year');
+        $newMovie->image = $request->input('image');
+        $newMovie->description = $request->input('description');
+        $newMovie->number_copies = $request->input('number_copies');
+
+        $saved = $newMovie->save();
+        if($saved) {
+            $response = [
+                'status' => 200,
+                'response' => 'Pelicula almacenado correctamente' 
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'response' => 'Error al guardar el Pelicula' 
+            ];
+        }
+        return json_encode($response);
     }
 
     /**
@@ -34,9 +84,33 @@ class MoviesController extends Controller
      * @param  \App\Models\Movies  $movies
      * @return \Illuminate\Http\Response
      */
-    public function show(Movies $movies)
+    public function show(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+        //dd($validator->fails());
+        if ($validator->fails()) {
+            $response = [
+                'status' => 500,
+                'response' => 'Id de pelicula requerido.' 
+            ];
+            return json_encode($response);
+        }
+        $movie = Movies::join('categories','categories.id','=','movies.category_id')
+                        ->where('movies.id',$request->input('id'))->first();
+        if(is_null($movie)) {
+            $response = [
+                'status' => 500,
+                'response' => 'Pelicula no encontrada.' 
+            ];
+        } else {
+            $response = [
+                'status' => 200,
+                'response' => $movie
+            ];
+        }
+        return json_encode($response);
     }
 
     /**
@@ -46,9 +120,47 @@ class MoviesController extends Controller
      * @param  \App\Models\Movies  $movies
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movies $movies)
+    public function update(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'title' => 'required',
+            'category_id' => 'required',
+            'year' => 'required',
+            'description' => 'required',
+            'number_copies' => 'required',
+            'image' => 'required',
+        ]);
+        //dd($validator->fails());
+        if ($validator->fails()) {
+            $response = [
+                'status' => 500,
+                'response' => 'Id de pelicula requerido.' 
+            ];
+            return json_encode($response);
+        }
+        $movie = Movies::find($request->input('id'));
+        if(is_null($movie)) {
+            $response = [
+                'status' => 500,
+                'response' => 'Pelicula no encontrada.' 
+            ];
+        } else {
+            $movie->title = $request->input('title');
+            $movie->category_id = $request->input('category_id');
+            $movie->year = $request->input('year');
+            $movie->number_copies = $request->input('number_copies');
+            $movie->description = $request->input('description');
+            $movie->image = $request->input('image');
+
+            $saved = $movie->save();
+
+            $response = [
+                'status' => 200,
+                'response' =>'Pelicula actualizada exitosamente'
+            ];
+        }
+        return json_encode($response);
     }
 
     /**
@@ -57,8 +169,32 @@ class MoviesController extends Controller
      * @param  \App\Models\Movies  $movies
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Movies $movies)
+    public function destroy(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+        //dd($validator->fails());
+        if ($validator->fails()) {
+            $response = [
+                'status' => 500,
+                'response' => 'Id de pelicula requerido.' 
+            ];
+            return json_encode($response);
+        }
+        $movie = Movies::find($request->input('id'));
+        if(is_null($movie)) {
+            $response = [
+                'status' => 500,
+                'response' => 'Pelicula no encontrada.' 
+            ];
+        } else {
+            $movie->delete();
+            $response = [
+                'status' => 200,
+                'response' => 'Pelicula eliminada exitosamente'
+            ];
+        }
+        return json_encode($response);
     }
 }

@@ -35,7 +35,6 @@ class ClientsController extends Controller
         $validator = Validator::make($request->all(), [
             'names' => 'required',
             'surnames' => 'required',
-            'user_name' => 'required',
             'dni' => 'required',
             'description' => 'required',
         ]);
@@ -51,7 +50,6 @@ class ClientsController extends Controller
         $newClient = new Clients();
         $newClient->names = $request->input('names');
         $newClient->surnames = $request->input('surnames');
-        $newClient->user_name = $request->input('user_name');
         $newClient->dni = $request->input('dni');
         $newClient->description = $request->input('description');
 
@@ -117,7 +115,6 @@ class ClientsController extends Controller
             'id' => 'required',
             'names' => 'required',
             'surnames' => 'required',
-            'user_name' => 'required',
             'dni' => 'required',
             'description' => 'required',
         ]);
@@ -138,7 +135,6 @@ class ClientsController extends Controller
         } else {
             $client->names = $request->input('names');
             $client->surnames = $request->input('surnames');
-            $client->user_name = $request->input('user_name');
             $client->dni = $request->input('dni');
             $client->description = $request->input('description');
 
